@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbpApplicationTests {
@@ -56,5 +57,26 @@ class SbpApplicationTests {
 		Question q = this.questionRepository.findBySubject("JPA 실전사용은 처음이에요.");
 		assertEquals(1, q.getId());
 	}
+
+	@Test
+	void testJpa5() {
+		Question q = this.questionRepository.findBySubjectAndContent(
+				"JPA 실전사용은 처음이에요.", "JPA 쉽지않네요..");
+		assertEquals(1, q.getId());
+	}
+
+	@Test
+	void testJpa6() {
+		List<Question> qList = this.questionRepository.findBySubjectLike("Spring%");
+		Question q = qList.get(0);
+		assertEquals("Spring Legacy만 해봤는데", q.getSubject());
+	}
+
+	@Test
+	void testJpa7() {
+		Optional<Question> oq = this.questionRepository.findById(1);
+		assertTrue(oq.isPresent());
+	}
+
 
 }
